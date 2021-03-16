@@ -61,7 +61,7 @@ abstract class BaseConsumer extends AmqpMember
 
 
 
-	public function setCallback($callback)
+	public function setCallback($callback): void
 	{
 		Callback::check($callback);
 		$this->callback = $callback;
@@ -69,7 +69,7 @@ abstract class BaseConsumer extends AmqpMember
 
 
 
-	public function stopConsuming()
+	public function stopConsuming(): void
 	{
 		$this->getChannel()->basic_cancel($this->getConsumerTag());
 		$this->onStop($this);
@@ -77,7 +77,7 @@ abstract class BaseConsumer extends AmqpMember
 
 
 
-	protected function setupConsumer()
+	protected function setupConsumer(): void
 	{
 		if ($this->autoSetupFabric) {
 			$this->setupFabric();
@@ -100,7 +100,7 @@ abstract class BaseConsumer extends AmqpMember
 
 
 
-	protected function maybeStopConsumer()
+	protected function maybeStopConsumer(): void
 	{
 		if (extension_loaded('pcntl') && (defined('AMQP_WITHOUT_SIGNALS') ? !AMQP_WITHOUT_SIGNALS : true)) {
 			if (!function_exists('pcntl_signal_dispatch')) {
@@ -110,31 +110,28 @@ abstract class BaseConsumer extends AmqpMember
 			pcntl_signal_dispatch();
 		}
 
-		if ($this->forceStop || ($this->consumed == $this->target && $this->target > 0)) {
+		if ($this->forceStop || ($this->consumed === $this->target && $this->target > 0)) {
 			$this->stopConsuming();
-
-		} else {
-			return;
 		}
 	}
 
 
 
-	public function setConsumerTag($tag)
+	public function setConsumerTag($tag): void
 	{
 		$this->consumerTag = $tag;
 	}
 
 
 
-	public function getConsumerTag()
+	public function getConsumerTag(): string
 	{
 		return $this->consumerTag;
 	}
 
 
 
-	public function forceStopConsumer()
+	public function forceStopConsumer(): void
 	{
 		$this->forceStop = TRUE;
 	}
@@ -149,7 +146,7 @@ abstract class BaseConsumer extends AmqpMember
 	 * @param int $prefetchCount
 	 * @param bool $global
 	 */
-	public function setQosOptions($prefetchSize = 0, $prefetchCount = 0, $global = FALSE)
+	public function setQosOptions($prefetchSize = 0, $prefetchCount = 0, $global = FALSE): void
 	{
 		$this->qosOptions = [
 			'prefetchSize' => $prefetchSize,
@@ -160,7 +157,7 @@ abstract class BaseConsumer extends AmqpMember
 
 
 
-	protected function qosDeclare()
+	protected function qosDeclare(): void
 	{
 		if (!array_filter($this->qosOptions)) {
 			return;
@@ -177,14 +174,14 @@ abstract class BaseConsumer extends AmqpMember
 
 
 
-	public function setIdleTimeout($seconds)
+	public function setIdleTimeout($seconds): void
 	{
 		$this->idleTimeout = $seconds;
 	}
 
 
 
-	public function getIdleTimeout()
+	public function getIdleTimeout(): int
 	{
 		return $this->idleTimeout;
 	}

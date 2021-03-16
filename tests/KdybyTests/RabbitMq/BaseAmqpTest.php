@@ -31,9 +31,9 @@ class BaseAmqpTest extends TestCase
 
 		Assert::exception(function () use ($consumer) {
 			$consumer->getChannel();
-		}, 'PhpAmqpLib\Exception\AMQPRuntimeException', 'Error Connecting to server(111): Connection refused');
+		}, 'PhpAmqpLib\Exception\AMQPIOException');
 	}
 
 }
 
-\run(new BaseAmqpTest());
+(new BaseAmqpTest())->run();

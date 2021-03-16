@@ -63,7 +63,7 @@ abstract class AmqpMember
 		'autoDelete' => false,
 		'internal' => false,
 		'nowait' => false,
-		'arguments' => null,
+		'arguments' => [],
 		'ticket' => null,
 		'declare' => true,
 	];
@@ -123,9 +123,9 @@ abstract class AmqpMember
 	}
 
 
-
 	/**
 	 * @return AMQPChannel
+	 * @throws \Exception
 	 */
 	public function getChannel()
 	{
@@ -141,7 +141,7 @@ abstract class AmqpMember
 	/**
 	 * @param AMQPChannel $ch
 	 */
-	public function setChannel(AMQPChannel $ch)
+	public function setChannel(AMQPChannel $ch): void
 	{
 		$this->ch = $ch;
 	}
@@ -153,7 +153,7 @@ abstract class AmqpMember
 	 * @param  array $options
 	 * @return void
 	 */
-	public function setExchangeOptions(array $options = [])
+	public function setExchangeOptions(array $options = []): void
 	{
 		if (!isset($options['name'])) {
 			throw new \InvalidArgumentException('You must provide an exchange name');
@@ -171,7 +171,7 @@ abstract class AmqpMember
 	/**
 	 * @return array
 	 */
-	public function getExchangeOptions()
+	public function getExchangeOptions(): array
 	{
 		return $this->exchangeOptions;
 	}
@@ -182,9 +182,9 @@ abstract class AmqpMember
 	 * @param  array $options
 	 * @return void
 	 */
-	public function setQueueOptions(array $options = [])
+	public function setQueueOptions(array $options = []): void
 	{
-		$this->queueOptions = $options + $this->queueOptions;
+		$this->queueOptions = array_merge($options, $this->queueOptions);
 	}
 
 
@@ -192,7 +192,7 @@ abstract class AmqpMember
 	/**
 	 * @return array
 	 */
-	public function getQueueOptions()
+	public function getQueueOptions(): array
 	{
 		return $this->queueOptions;
 	}
@@ -203,14 +203,14 @@ abstract class AmqpMember
 	 * @param  string $routingKey
 	 * @return void
 	 */
-	public function setRoutingKey($routingKey)
+	public function setRoutingKey($routingKey): void
 	{
 		$this->routingKey = $routingKey;
 	}
 
 
 
-	protected function exchangeDeclare()
+	protected function exchangeDeclare(): void
 	{
 		if (empty($this->exchangeOptions['declare']) || empty($this->exchangeOptions['name'])) {
 			return;

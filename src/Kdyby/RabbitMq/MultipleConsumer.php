@@ -24,16 +24,14 @@ class MultipleConsumer extends Consumer
 	 */
 	protected $queues = [];
 
-
-
-	public function getQueueConsumerTag($queue)
+	public function getQueueConsumerTag($queue): string
 	{
 		return sprintf('%s-%s', $this->getConsumerTag(), $queue);
 	}
 
 
 
-	public function setQueues(array $queues)
+	public function setQueues(array $queues): void
 	{
 		$this->queues = [];
 		foreach ($queues as $name => $queue) {
@@ -56,9 +54,7 @@ class MultipleConsumer extends Consumer
 		return $this->queues;
 	}
 
-
-
-	protected function setupConsumer()
+	protected function setupConsumer(): void
 	{
 		if ($this->autoSetupFabric) {
 			$this->setupFabric();
@@ -78,7 +74,7 @@ class MultipleConsumer extends Consumer
 
 
 
-	protected function queueDeclare()
+	protected function queueDeclare(): void
 	{
 		foreach ($this->queues as $name => $options) {
 			$this->doQueueDeclare($name, $options);
@@ -89,7 +85,7 @@ class MultipleConsumer extends Consumer
 
 
 
-	public function processQueueMessage($queueName, AMQPMessage $msg)
+	public function processQueueMessage($queueName, AMQPMessage $msg): void
 	{
 		if (!isset($this->queues[$queueName])) {
 			throw new QueueNotFoundException();
