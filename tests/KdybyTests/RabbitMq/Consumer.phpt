@@ -36,6 +36,7 @@ class ConsumerTest extends TestCase
 		$amqpConnection = $this->getMockery('Kdyby\RabbitMq\Connection', ['127.0.0.1', 5672, 'guest', 'guest'])
 			->makePartial();
 
+
 		/** @var Kdyby\RabbitMq\Channel|Mock $amqpChannel */
 		$amqpChannel = $this->getMockery('Kdyby\RabbitMq\Channel', [$amqpConnection])
 			->makePartial();
@@ -48,8 +49,8 @@ class ConsumerTest extends TestCase
 
 		// Create a default message
 		$amqpMessage = new AMQPMessage('foo body');
-		$amqpMessage->delivery_info['channel'] = $amqpChannel;
-		$amqpMessage->delivery_info['delivery_tag'] = 0;
+		$amqpMessage->setChannel($amqpChannel);
+		$amqpMessage->setDeliveryTag(1);
 
 		$amqpChannel->shouldReceive('basic_reject')
 			->andReturnUsing(function($delivery_tag, $requeue) use ($expectedMethod, $expectedRequeue) {
@@ -81,4 +82,4 @@ class ConsumerTest extends TestCase
 
 }
 
-\run(new ConsumerTest());
+(new ConsumerTest())->run();

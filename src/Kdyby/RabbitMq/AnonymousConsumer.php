@@ -23,7 +23,7 @@ class AnonymousConsumer extends Consumer
 			'exclusive' => true,
 			'autoDelete' => true,
 			'nowait' => false,
-			'arguments' => null,
+			'arguments' => [],
 			'ticket' => null
 		]);
 	}

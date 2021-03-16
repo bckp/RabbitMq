@@ -49,8 +49,8 @@ class MultipleConsumerTest extends TestCase
 
 		// Create a default message
 		$amqpMessage = new AMQPMessage('foo body');
-		$amqpMessage->delivery_info['channel'] = $amqpChannel;
-		$amqpMessage->delivery_info['delivery_tag'] = 0;
+		$amqpMessage->setChannel($amqpChannel);
+		$amqpMessage->setDeliveryTag(1);
 
 		$amqpChannel->shouldReceive('basic_reject')
 			->andReturnUsing(function ($delivery_tag, $requeue) use ($expectedMethod, $expectedRequeue) {
@@ -83,4 +83,4 @@ class MultipleConsumerTest extends TestCase
 
 }
 
-\run(new MultipleConsumerTest());
+(new MultipleConsumerTest())->run();

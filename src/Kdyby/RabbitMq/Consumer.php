@@ -95,7 +95,7 @@ class Consumer extends BaseConsumer
 		$this->setupConsumer();
 		$this->onStart($this);
 
-		$previousErrorHandler = set_error_handler(function ($severity, $message, $file, $line, $context) use (&$previousErrorHandler) {
+		$previousErrorHandler = set_error_handler(static function ($severity, $message, $file, $line, $context) use (&$previousErrorHandler) {
 			if (!preg_match('~stream_select\\(\\)~i', $message)) {
 				$args = func_get_args();
 				return call_user_func_array($previousErrorHandler, $args);
@@ -174,23 +174,23 @@ class Consumer extends BaseConsumer
 	{
 		if ($processFlag === IConsumer::MSG_REJECT_REQUEUE || false === $processFlag) {
 			// Reject and requeue message to RabbitMQ
-			$msg->delivery_info['channel']->basic_reject($msg->delivery_info['delivery_tag'], true);
+			$msg->getChannel()->basic_reject($msg->getDeliveryTag(), true);
 			$this->onReject($this, $msg, $processFlag);
 
 		} elseif ($processFlag === IConsumer::MSG_SINGLE_NACK_REQUEUE) {
 			// NACK and requeue message to RabbitMQ
-			$msg->delivery_info['channel']->basic_nack($msg->delivery_info['delivery_tag'], false, true);
+			$msg->getChannel()->basic_nack($msg->getDeliveryTag(), false, true);
 			$this->onReject($this, $msg, $processFlag);
 
 		} else {
 			if ($processFlag === IConsumer::MSG_REJECT) {
 				// Reject and drop
-				$msg->delivery_info['channel']->basic_reject($msg->delivery_info['delivery_tag'], false);
+				$msg->getChannel()->basic_reject($msg->getDeliveryTag(), false);
 				$this->onReject($this, $msg, $processFlag);
 
 			} else {
 				// Remove message from queue only if callback return not false
-				$msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+				$msg->getChannel()->basic_ack($msg->getDeliveryTag());
 				$this->onAck($this, $msg);
 			}
 		}
@@ -210,7 +210,7 @@ class Consumer extends BaseConsumer
 	 *
 	 * @return boolean
 	 */
-	protected function isRamAlmostOverloaded()
+	protected function isRamAlmostOverloaded(): bool
 	{
 		if ($this->getMemoryLimit() === NULL) {
 			return FALSE;

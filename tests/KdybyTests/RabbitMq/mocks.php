@@ -17,7 +17,7 @@ use Kdyby;
 class ConnectionMock extends Kdyby\RabbitMq\Connection
 {
 
-	protected function doCreateChannel($id)
+	protected function doCreateChannel(string $id): Kdyby\RabbitMq\Channel
 	{
 		return new ChannelMock($this, $id);
 	}
@@ -103,16 +103,16 @@ class ChannelMock extends Kdyby\RabbitMq\Channel
 
 
 
-	public function exchange_unbind($destination, $source, $routing_key = "", $arguments = NULL, $ticket = NULL)
+	public function exchange_unbind($destination, $source, $routing_key = '', $nowait = false, $arguments = [], $ticket = NULL)
 	{
 		$this->calls[] = [__FUNCTION__] + get_defined_vars();
 
-		return parent::exchange_unbind($destination, $source, $routing_key, $arguments, $ticket);
+		return parent::exchange_unbind($destination, $source, $routing_key, $nowait, $arguments, $ticket);
 	}
 
 
 
-	public function queue_bind($queue, $exchange, $routing_key = "", $nowait = FALSE, $arguments = NULL, $ticket = NULL)
+	public function queue_bind($queue, $exchange, $routing_key = "", $nowait = FALSE, $arguments = [], $ticket = NULL)
 	{
 		$this->calls[] = [__FUNCTION__] + get_defined_vars();
 
@@ -121,7 +121,7 @@ class ChannelMock extends Kdyby\RabbitMq\Channel
 
 
 
-	public function queue_unbind($queue, $exchange, $routing_key = "", $arguments = NULL, $ticket = NULL)
+	public function queue_unbind($queue, $exchange, $routing_key = "", $arguments = [], $ticket = NULL)
 	{
 		$this->calls[] = [__FUNCTION__] + get_defined_vars();
 
@@ -137,7 +137,7 @@ class ChannelMock extends Kdyby\RabbitMq\Channel
 		$exclusive = FALSE,
 		$auto_delete = TRUE,
 		$nowait = FALSE,
-		$arguments = NULL,
+		$arguments = [],
 		$ticket = NULL
 	) {
 		$this->calls[] = [__FUNCTION__] + get_defined_vars();
@@ -296,10 +296,10 @@ class ChannelMock extends Kdyby\RabbitMq\Channel
 
 
 
-	public function basic_publish($msg, $exchange = '', $routingKey = '', $mandatory = FALSE, $immediate = FALSE, $ticket = NULL)
+	public function basic_publish($msg, $exchange = '', $routing_key = '', $mandatory = FALSE, $immediate = FALSE, $ticket = NULL)
 	{
 		$this->calls[] = [__FUNCTION__] + get_defined_vars();
-		parent::basic_publish($msg, $exchange, $routingKey, $mandatory, $immediate, $ticket);
+		parent::basic_publish($msg, $exchange, $routing_key, $mandatory, $immediate, $ticket);
 	}
 
 }

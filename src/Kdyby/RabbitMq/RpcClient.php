@@ -42,7 +42,7 @@ class RpcClient extends AmqpMember
 
 	public function initClient($expectSerializedResponse = true)
 	{
-		list($this->queueName,,) = $this->getChannel()->queue_declare(
+		[$this->queueName, ,] = $this->getChannel()->queue_declare(
 			"",
 			$passive = false,
 			$durable = false,
@@ -55,7 +55,7 @@ class RpcClient extends AmqpMember
 
 
 
-	public function addRequest($msgBody, $server, $requestId = null, $routingKey = '', $expiration = 0)
+	public function addRequest($msgBody, $server, $requestId = null, $routingKey = '', $expiration = 0): void
 	{
 		if (empty($requestId)) {
 			throw new \InvalidArgumentException('You must provide a $requestId');
@@ -102,7 +102,7 @@ class RpcClient extends AmqpMember
 	{
 		$messageBody = $msg->body;
 		if ($this->expectSerializedResponse) {
-			$messageBody = unserialize($messageBody);
+			$messageBody = unserialize($messageBody, ['allowed_classes' => true]);
 		}
 
 		$this->replies[$msg->get('correlation_id')] = $messageBody;
