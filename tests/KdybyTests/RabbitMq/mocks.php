@@ -17,7 +17,7 @@ use Kdyby;
 class ConnectionMock extends Kdyby\RabbitMq\Connection
 {
 
-	protected function doCreateChannel(string $id): Kdyby\RabbitMq\Channel
+	protected function doCreateChannel(string $id)
 	{
 		return new ChannelMock($this, $id);
 	}

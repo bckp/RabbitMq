@@ -25,7 +25,7 @@ class Producer extends AmqpMember implements IProducer
 
 
 
-	public function setContentType($contentType): Producer
+	public function setContentType($contentType)
 	{
 		$this->contentType = $contentType;
 
@@ -34,7 +34,7 @@ class Producer extends AmqpMember implements IProducer
 
 
 
-	public function setDeliveryMode($deliveryMode): Producer
+	public function setDeliveryMode($deliveryMode)
 	{
 		$this->deliveryMode = $deliveryMode;
 
@@ -43,7 +43,7 @@ class Producer extends AmqpMember implements IProducer
 
 
 
-	protected function getBasicProperties(): array
+	protected function getBasicProperties()
 	{
 		return ['content_type' => $this->contentType, 'delivery_mode' => $this->deliveryMode];
 	}
@@ -57,7 +57,7 @@ class Producer extends AmqpMember implements IProducer
 	 * @param array $additionalProperties
 	 * @throws \Exception
 	 */
-	public function publish($msgBody, $routingKey = '', $additionalProperties = []): void
+	public function publish($msgBody, $routingKey = '', $additionalProperties = [])
 	{
 		if ($this->autoSetupFabric) {
 			$this->setupFabric();

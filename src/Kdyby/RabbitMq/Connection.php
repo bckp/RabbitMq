@@ -153,7 +153,7 @@ class Connection extends PhpAmqpLib\Connection\AMQPLazyConnection implements ICo
 	 * @return Channel
 	 * @throws \Exception
 	 */
-	protected function doCreateChannel(string $id): Channel
+	protected function doCreateChannel(string $id)
 	{
 		$channel = new Channel($this->connection, $id);
 

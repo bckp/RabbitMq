@@ -20,7 +20,7 @@ class Channel extends PhpAmqpLib\Channel\AMQPChannel
 
 
 
-	public function injectPanel(Diagnostics\Panel $panel): void
+	public function injectPanel(Diagnostics\Panel $panel)
 	{
 		$this->panel = $panel;
 	}

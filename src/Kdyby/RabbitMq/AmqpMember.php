@@ -141,7 +141,7 @@ abstract class AmqpMember
 	/**
 	 * @param AMQPChannel $ch
 	 */
-	public function setChannel(AMQPChannel $ch): void
+	public function setChannel(AMQPChannel $ch)
 	{
 		$this->ch = $ch;
 	}

@@ -210,7 +210,7 @@ class Consumer extends BaseConsumer
 	 *
 	 * @return boolean
 	 */
-	protected function isRamAlmostOverloaded(): bool
+	protected function isRamAlmostOverloaded()
 	{
 		if ($this->getMemoryLimit() === NULL) {
 			return FALSE;

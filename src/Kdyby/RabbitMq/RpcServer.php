@@ -56,7 +56,7 @@ class RpcServer extends BaseConsumer
 
 
 
-	public function start($msgAmount = 0): void
+	public function start($msgAmount = 0)
 	{
 		$this->target = $msgAmount;
 		$this->setupConsumer();

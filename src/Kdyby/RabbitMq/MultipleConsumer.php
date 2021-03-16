@@ -54,7 +54,7 @@ class MultipleConsumer extends Consumer
 		return $this->queues;
 	}
 
-	protected function setupConsumer(): void
+	protected function setupConsumer()
 	{
 		if ($this->autoSetupFabric) {
 			$this->setupFabric();
@@ -74,7 +74,7 @@ class MultipleConsumer extends Consumer
 
 
 
-	protected function queueDeclare(): void
+	protected function queueDeclare()
 	{
 		foreach ($this->queues as $name => $options) {
 			$this->doQueueDeclare($name, $options);
@@ -85,7 +85,7 @@ class MultipleConsumer extends Consumer
 
 
 
-	public function processQueueMessage($queueName, AMQPMessage $msg): void
+	public function processQueueMessage($queueName, AMQPMessage $msg)
 	{
 		if (!isset($this->queues[$queueName])) {
 			throw new QueueNotFoundException();

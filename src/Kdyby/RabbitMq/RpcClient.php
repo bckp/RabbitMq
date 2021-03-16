@@ -55,7 +55,7 @@ class RpcClient extends AmqpMember
 
 
 
-	public function addRequest($msgBody, $server, $requestId = null, $routingKey = '', $expiration = 0): void
+	public function addRequest($msgBody, $server, $requestId = null, $routingKey = '', $expiration = 0)
 	{
 		if (empty($requestId)) {
 			throw new \InvalidArgumentException('You must provide a $requestId');
