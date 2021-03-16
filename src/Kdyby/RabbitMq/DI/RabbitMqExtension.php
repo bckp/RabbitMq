@@ -28,8 +28,6 @@ use Kdyby\RabbitMq\Command\ConsumerCommand;
 use Kdyby\RabbitMq\Producer;
 use Kdyby\RabbitMq\Diagnostics\Panel;
 use Kdyby\RabbitMq\Connection;
-use Kdyby\Console\DI\ConsoleExtension;
-use Nette\DI\Definitions\Statement;
 
 
 /**
@@ -486,7 +484,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 
 	private function loadConsole()
 	{
-		if ('cli' !== PHP_SAPI || !class_exists(ConsoleExtension::class)) {
+		if (!class_exists('Kdyby\Console\DI\ConsoleExtension') || PHP_SAPI !== 'cli') {
 			return;
 		}
 
@@ -556,7 +554,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 	 */
 	protected static function filterArgs($statement): array
 	{
-		return Nette\DI\Helpers::filterArguments([is_string($statement) ? new Nette\DI\Definitions\Statement($statement) : $statement]);
+		return Nette\DI\Helpers::filterArguments([is_string($statement) ? static::createStatement($statement) : $statement]);
 	}
 
 
@@ -569,7 +567,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 
 	protected static function createStatement($class)
 	{
-		if (class_exists(Statement::class)) {
+		if (class_exists('Nette\DI\Definitions\Statement')) {
 			return new Nette\DI\Definitions\Statement($class);
 		}
 		return new Nette\DI\Statement($class);
