@@ -28,6 +28,8 @@ use Kdyby\RabbitMq\Command\ConsumerCommand;
 use Kdyby\RabbitMq\Producer;
 use Kdyby\RabbitMq\Diagnostics\Panel;
 use Kdyby\RabbitMq\Connection;
+use Kdyby\Console\DI\ConsoleExtension;
+use Nette\DI\Definitions\Statement;
 
 
 /**
@@ -40,10 +42,10 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 	public const TAG_PRODUCER = 'kdyby.rabbitmq.producer';
 	public const TAG_CONSUMER = 'kdyby.rabbitmq.consumer';
 	public const TAG_RPC_CLIENT = 'kdyby.rabbitmq.rpc.client';
-	public 	const TAG_RPC_SERVER = 'kdyby.rabbitmq.rpc.server';
+	public const TAG_RPC_SERVER = 'kdyby.rabbitmq.rpc.server';
 
 	public const EXTENDS_KEY = '_extends';
-	public const PREVENT_MERGING = '_prevent_merging';
+	public const OVERWRITE = true;
 
 	/**
 	 * @var array
@@ -484,7 +486,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 
 	private function loadConsole()
 	{
-		if (!class_exists('Kdyby\Console\DI\ConsoleExtension') || PHP_SAPI !== 'cli') {
+		if ('cli' !== PHP_SAPI || !class_exists(ConsoleExtension::class)) {
 			return;
 		}
 
@@ -509,30 +511,30 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 		return static::merge($config, Nette\DI\Helpers::expand($defaults, $this->compiler->getContainerBuilder()->parameters));
 	}
 
-	public static function merge($value, $base)
+	public static function merge($left, $right)
 	{
-		if (is_array($value) && isset($value[self::PREVENT_MERGING])) {
-			unset($value[self::PREVENT_MERGING]);
-			return $value;
-		}
-
-		if (is_array($value) && is_array($base)) {
-			$index = 0;
-			foreach ($value as $key => $val) {
-				if ($key === $index) {
-					$base[] = $val;
-					$index++;
+		if (is_array($left) && is_array($right)) {
+			foreach ($left as $key => $val) {
+				if (is_int($key)) {
+					$right[] = $val;
 				} else {
-					$base[$key] = static::merge($val, $base[$key] ?? null);
+					if (is_array($val) && isset($val[self::EXTENDS_KEY])) {
+						if ($val[self::EXTENDS_KEY] === self::OVERWRITE) {
+							unset($val[self::EXTENDS_KEY]);
+						}
+					} elseif (isset($right[$key])) {
+						$val = static::merge($val, $right[$key]);
+					}
+					$right[$key] = $val;
 				}
 			}
-			return $base;
+			return $right;
 
-		} elseif ($value === null && is_array($base)) {
-			return $base;
+		} elseif ($left === null && is_array($right)) {
+			return $right;
 
 		} else {
-			return $value;
+			return $left;
 		}
 	}
 
@@ -540,7 +542,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 	protected static function fixCallback($callback)
 	{
 		[$callback] = self::filterArgs($callback);
-		if ($callback instanceof Nette\DI\Definitions\Statement && empty($callback->arguments) && substr_count($callback->entity, '::')) {
+		if (static::isStatement($callback) && empty($callback->arguments) && substr_count($callback->entity, '::')) {
 			$callback = explode('::', $callback->entity, 2);
 		}
 
@@ -563,6 +565,19 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 		$configurator->onCompile[] = static function ($config, Compiler $compiler) {
 			$compiler->addExtension('rabbitmq', new RabbitMqExtension());
 		};
+	}
+
+	protected static function createStatement($class)
+	{
+		if (class_exists(Statement::class)) {
+			return new Nette\DI\Definitions\Statement($class);
+		}
+		return new Nette\DI\Statement($class);
+	}
+
+	protected static function isStatement($stmt): bool
+	{
+		return $stmt instanceof Nette\DI\Definitions\Statement || $stmt instanceof Nette\DI\Statement;
 	}
 
 }
