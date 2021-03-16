@@ -290,7 +290,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		foreach ($producers as $name => $config) {
-			$config = $this->mergeConfig($config, ['autoSetupFabric' => $builder->parameters[$this->name]['autoSetupFabric'] ?? null] + $this->producersDefaults);
+			$config = $this->mergeConfig($config, ['autoSetupFabric' => $builder->parameters[$this->name]['autoSetupFabric']] + $this->producersDefaults);
 
 			if (!isset($this->connectionsMeta[$config['connection']])) {
 				throw new Nette\Utils\AssertionException("Connection {$config['connection']} required in producer {$this->name}.{$name} was not defined.");
@@ -329,7 +329,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		foreach ($consumers as $name => $config) {
-			$config = $this->mergeConfig($config, ['autoSetupFabric' => $builder->parameters[$this->name]['autoSetupFabric'] ?? null] + $this->consumersDefaults);
+			$config = $this->mergeConfig($config, ['autoSetupFabric' => $builder->parameters[$this->name]['autoSetupFabric']] + $this->consumersDefaults);
 			$config = $this->extendConsumerFromProducer($name, $config);
 
 			if (!isset($this->connectionsMeta[$config['connection']])) {

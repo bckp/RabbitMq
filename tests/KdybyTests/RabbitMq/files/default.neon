@@ -1,4 +1,5 @@
 rabbitmq:
+	autoSetupFabric: true
 	debugger: false
 
 	connection:
