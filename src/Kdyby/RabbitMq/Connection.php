@@ -127,13 +127,13 @@ class Connection extends PhpAmqpLib\Connection\AMQPLazyConnection implements ICo
 	}
 
 
+
 	/**
 	 * Fetch a Channel object identified by the numeric channel_id, or
 	 * create that object if it doesn't already exist.
 	 *
-	 * @param null $id
+	 * @param string $id
 	 * @return Channel
-	 * @throws \Exception
 	 */
 	public function channel($id = null)
 	{
@@ -148,12 +148,12 @@ class Connection extends PhpAmqpLib\Connection\AMQPLazyConnection implements ICo
 	}
 
 
+
 	/**
 	 * @param string $id
 	 * @return Channel
-	 * @throws \Exception
 	 */
-	protected function doCreateChannel(string $id)
+	protected function doCreateChannel($id)
 	{
 		$channel = new Channel($this->connection, $id);
 

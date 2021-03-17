@@ -31,7 +31,7 @@ class BaseAmqpTest extends TestCase
 
 		Assert::exception(function () use ($consumer) {
 			$consumer->getChannel();
-		}, 'PhpAmqpLib\Exception\AMQPIOException');
+		}, 'ErrorException');
 	}
 
 }

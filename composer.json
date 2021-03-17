@@ -23,7 +23,7 @@
 		"php": ">=7.1",
 		"nette/di": ">=2.4.17",
 		"nette/utils": ">=2.5.7 <4",
-		"php-amqplib/php-amqplib": "~2.12.3"
+		"php-amqplib/php-amqplib": "2.6.*"
 	},
 	"require-dev": {
 		"nette/caching": ">=2.5",

@@ -17,7 +17,7 @@ use Kdyby;
 class ConnectionMock extends Kdyby\RabbitMq\Connection
 {
 
-	protected function doCreateChannel(string $id)
+	protected function doCreateChannel($id)
 	{
 		return new ChannelMock($this, $id);
 	}
@@ -103,16 +103,16 @@ class ChannelMock extends Kdyby\RabbitMq\Channel
 
 
 
-	public function exchange_unbind($destination, $source, $routing_key = '', $nowait = false, $arguments = [], $ticket = NULL)
+	public function exchange_unbind($destination, $source, $routing_key = '', $arguments = NULL, $ticket = NULL)
 	{
 		$this->calls[] = [__FUNCTION__] + get_defined_vars();
 
-		return parent::exchange_unbind($destination, $source, $routing_key, $nowait, $arguments, $ticket);
+		return parent::exchange_unbind($destination, $source, $routing_key, $arguments, $ticket);
 	}
 
 
 
-	public function queue_bind($queue, $exchange, $routing_key = "", $nowait = FALSE, $arguments = [], $ticket = NULL)
+	public function queue_bind($queue, $exchange, $routing_key = "", $nowait = FALSE, $arguments = NULL, $ticket = NULL)
 	{
 		$this->calls[] = [__FUNCTION__] + get_defined_vars();
 
@@ -121,7 +121,7 @@ class ChannelMock extends Kdyby\RabbitMq\Channel
 
 
 
-	public function queue_unbind($queue, $exchange, $routing_key = "", $arguments = [], $ticket = NULL)
+	public function queue_unbind($queue, $exchange, $routing_key = "", $arguments = NULL, $ticket = NULL)
 	{
 		$this->calls[] = [__FUNCTION__] + get_defined_vars();
 

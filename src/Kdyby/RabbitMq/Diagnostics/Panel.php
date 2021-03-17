@@ -40,7 +40,9 @@ class Panel implements IBarPanel
 	 */
 	private $serviceMap = [];
 
-	public function injectServiceMap(array $consumers, array $rpcServers): void
+
+
+	public function injectServiceMap(array $consumers, array $rpcServers)
 	{
 		$this->serviceMap = [
 			'consumer' => $consumers,
@@ -48,7 +50,12 @@ class Panel implements IBarPanel
 		];
 	}
 
-	public function getTab(): string
+
+
+	/**
+	 * @return string
+	 */
+	public function getTab()
 	{
 		$img = Html::el('')->addHtml(file_get_contents(__DIR__ . '/rabbitmq-logo.svg'));
 		$tab = Html::el('span')->title('RabbitMq')->addHtml($img);
@@ -66,10 +73,10 @@ class Panel implements IBarPanel
 	/**
 	 * @return string
 	 */
-	public function getPanel(): string
+	public function getPanel()
 	{
-		$isRunning = static function ($type, $name) {
-			if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
+		$isRunning = function ($type, $name) {
+			if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
 				return FALSE; // sry, I don't know how to do this
 			}
 
@@ -85,7 +92,7 @@ class Panel implements IBarPanel
 			$instances = 0;
 			foreach ($output as $line) {
 				if (stripos($line, '|grep') === FALSE) {
-					++$instances;
+					$instances += 1;
 				}
 			}
 
@@ -118,8 +125,9 @@ class Panel implements IBarPanel
 
 	/**
 	 * @param $message
+	 * @return object
 	 */
-	public function published($message): void
+	public function published($message)
 	{
 		$this->messages[] = $message;
 	}
@@ -130,7 +138,7 @@ class Panel implements IBarPanel
 	 * @param Connection $connection
 	 * @return Panel
 	 */
-	public function register(Connection $connection): Panel
+	public function register(Connection $connection)
 	{
 		Debugger::getBar()->addPanel($this);
 		return $this;

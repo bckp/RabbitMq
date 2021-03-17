@@ -42,7 +42,7 @@ class RpcClient extends AmqpMember
 
 	public function initClient($expectSerializedResponse = true)
 	{
-		[$this->queueName, ,] = $this->getChannel()->queue_declare(
+		list($this->queueName,,) = $this->getChannel()->queue_declare(
 			"",
 			$passive = false,
 			$durable = false,
@@ -102,7 +102,7 @@ class RpcClient extends AmqpMember
 	{
 		$messageBody = $msg->body;
 		if ($this->expectSerializedResponse) {
-			$messageBody = unserialize($messageBody, ['allowed_classes' => true]);
+			$messageBody = unserialize($messageBody);
 		}
 
 		$this->replies[$msg->get('correlation_id')] = $messageBody;

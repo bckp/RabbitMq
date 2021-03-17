@@ -49,8 +49,8 @@ class ConsumerTest extends TestCase
 
 		// Create a default message
 		$amqpMessage = new AMQPMessage('foo body');
-		$amqpMessage->setChannel($amqpChannel);
-		$amqpMessage->setDeliveryTag(1);
+		$amqpMessage->delivery_info['channel'] = $amqpChannel;
+		$amqpMessage->delivery_info['delivery_tag'] = 0;
 
 		$amqpChannel->shouldReceive('basic_reject')
 			->andReturnUsing(function($delivery_tag, $requeue) use ($expectedMethod, $expectedRequeue) {

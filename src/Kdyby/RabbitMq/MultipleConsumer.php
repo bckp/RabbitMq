@@ -24,14 +24,16 @@ class MultipleConsumer extends Consumer
 	 */
 	protected $queues = [];
 
-	public function getQueueConsumerTag($queue): string
+
+
+	public function getQueueConsumerTag($queue)
 	{
 		return sprintf('%s-%s', $this->getConsumerTag(), $queue);
 	}
 
 
 
-	public function setQueues(array $queues): void
+	public function setQueues(array $queues)
 	{
 		$this->queues = [];
 		foreach ($queues as $name => $queue) {
@@ -53,6 +55,8 @@ class MultipleConsumer extends Consumer
 	{
 		return $this->queues;
 	}
+
+
 
 	protected function setupConsumer()
 	{

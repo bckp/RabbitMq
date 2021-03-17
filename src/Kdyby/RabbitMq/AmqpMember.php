@@ -63,7 +63,7 @@ abstract class AmqpMember
 		'autoDelete' => false,
 		'internal' => false,
 		'nowait' => false,
-		'arguments' => [],
+		'arguments' => null,
 		'ticket' => null,
 		'declare' => true,
 	];
@@ -123,9 +123,9 @@ abstract class AmqpMember
 	}
 
 
+
 	/**
 	 * @return AMQPChannel
-	 * @throws \Exception
 	 */
 	public function getChannel()
 	{
@@ -153,7 +153,7 @@ abstract class AmqpMember
 	 * @param  array $options
 	 * @return void
 	 */
-	public function setExchangeOptions(array $options = []): void
+	public function setExchangeOptions(array $options = [])
 	{
 		if (!isset($options['name'])) {
 			throw new \InvalidArgumentException('You must provide an exchange name');
@@ -171,7 +171,7 @@ abstract class AmqpMember
 	/**
 	 * @return array
 	 */
-	public function getExchangeOptions(): array
+	public function getExchangeOptions()
 	{
 		return $this->exchangeOptions;
 	}
@@ -182,9 +182,9 @@ abstract class AmqpMember
 	 * @param  array $options
 	 * @return void
 	 */
-	public function setQueueOptions(array $options = []): void
+	public function setQueueOptions(array $options = [])
 	{
-		$this->queueOptions = array_merge($options, $this->queueOptions);
+		$this->queueOptions = $options + $this->queueOptions;
 	}
 
 
@@ -192,7 +192,7 @@ abstract class AmqpMember
 	/**
 	 * @return array
 	 */
-	public function getQueueOptions(): array
+	public function getQueueOptions()
 	{
 		return $this->queueOptions;
 	}
@@ -203,14 +203,14 @@ abstract class AmqpMember
 	 * @param  string $routingKey
 	 * @return void
 	 */
-	public function setRoutingKey($routingKey): void
+	public function setRoutingKey($routingKey)
 	{
 		$this->routingKey = $routingKey;
 	}
 
 
 
-	protected function exchangeDeclare(): void
+	protected function exchangeDeclare()
 	{
 		if (empty($this->exchangeOptions['declare']) || empty($this->exchangeOptions['name'])) {
 			return;

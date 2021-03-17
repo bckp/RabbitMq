@@ -27,13 +27,13 @@ class Channel extends PhpAmqpLib\Channel\AMQPChannel
 
 
 
-	public function basic_publish($msg, $exchange = '', $routing_key = '', $mandatory = false, $immediate = false, $ticket = NULL)
+	public function basic_publish($msg, $exchange = '', $routingKey = '', $mandatory = false, $immediate = false, $ticket = NULL)
 	{
 		if ($this->panel) {
 			$this->panel->published(get_defined_vars()); // all args
 		}
 
-		parent::basic_publish($msg, $exchange, $routing_key, $mandatory, $immediate, $ticket);
+		parent::basic_publish($msg, $exchange, $routingKey, $mandatory, $immediate, $ticket);
 	}
 
 }

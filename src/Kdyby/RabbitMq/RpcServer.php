@@ -48,7 +48,7 @@ class RpcServer extends BaseConsumer
 
 
 
-	public function initServer($name): void
+	public function initServer($name)
 	{
 		$this->setExchangeOptions(['name' => $name, 'type' => 'direct']);
 		$this->setQueueOptions(['name' => $name . '-queue']);
@@ -93,7 +93,7 @@ class RpcServer extends BaseConsumer
 	public function processMessage(AMQPMessage $msg)
 	{
 		try {
-			$msg->getChannel()->basic_ack($msg->getDeliveryTag());
+			$msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
 			$this->onConsume($this, $msg);
 
 			$result = call_user_func($this->callback, $msg);
