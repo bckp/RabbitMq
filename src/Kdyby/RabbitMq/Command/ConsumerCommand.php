@@ -10,12 +10,14 @@ namespace Kdyby\RabbitMq\Command;
  */
 class ConsumerCommand extends BaseConsumerCommand
 {
+	public const NAME = 'consumer';
 
 	protected function configure()
 	{
 		parent::configure();
 
-		$this->setName('rabbitmq:consumer');
+		$this->setName('kdybyrabbitmq:' . self::NAME);
+		$this->setAliases(['rabbitmq:' . self::NAME]);
 		$this->setDescription('Starts a configured consumer');
 	}
 

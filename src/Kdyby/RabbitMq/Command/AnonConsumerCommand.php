@@ -15,12 +15,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class AnonConsumerCommand extends BaseConsumerCommand
 {
+	public const NAME = 'anon-consumer';
 
 	protected function configure()
 	{
 		parent::configure();
 
-		$this->setName('rabbitmq:anon-consumer');
+		$this->setName('kdybyrabbitmq:' . self::NAME);
+		$this->setAliases(['rabbitmq:' . self::NAME]);
 		$this->setDescription('Starts an anonymouse configured consumer');
 
 		$this->getDefinition()->getOption('messages')->setDefault(1);

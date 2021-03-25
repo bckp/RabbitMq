@@ -34,8 +34,6 @@ abstract class BaseConsumerCommand extends Command
 	 */
 	protected $amount;
 
-
-
 	protected function configure()
 	{
 		$this

@@ -16,6 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class StdInProducerCommand extends Command
 {
+	public const NAME = 'stdin-producer';
 
 	/**
 	 * @inject
@@ -23,12 +24,11 @@ class StdInProducerCommand extends Command
 	 */
 	public $connection;
 
-
-
 	protected function configure()
 	{
 		$this
-			->setName('rabbitmq:stdin-producer')
+			->setName('kdybyrabbitmq:' . self::NAME)
+			->setAliases(['rabbitmq:' . self::NAME])
 			->setDescription('Creates message from given STDIN and passes it to configured producer')
 			->addArgument('name', InputArgument::REQUIRED, 'Producer Name')
 			->addOption('debug', 'd', InputOption::VALUE_OPTIONAL, 'Enable Debugging', false);

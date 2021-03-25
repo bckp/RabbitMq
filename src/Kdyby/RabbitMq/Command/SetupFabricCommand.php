@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SetupFabricCommand extends Command
 {
+	public const NAME = 'setup-fabric';
 
 	/**
 	 * @inject
@@ -24,17 +25,14 @@ class SetupFabricCommand extends Command
 	 */
 	public $container;
 
-
-
 	protected function configure()
 	{
 		$this
-			->setName('rabbitmq:setup-fabric')
+			->setName('kdybyrabbitmq:' . self::NAME)
+			->setAliases(['rabbitmq:' . self::NAME])
 			->setDescription('Sets up the Rabbit MQ fabric')
 			->addOption('debug', 'd', InputOption::VALUE_NONE, 'Enable Debugging');
 	}
-
-
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{

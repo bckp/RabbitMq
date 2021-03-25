@@ -17,6 +17,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RpcServerCommand extends Command
 {
 
+	public const NAME = 'rpc-server';
+
 	/**
 	 * @inject
 	 * @var \Kdyby\RabbitMq\Connection
@@ -28,7 +30,8 @@ class RpcServerCommand extends Command
 	protected function configure()
 	{
 		$this
-			->setName('rabbitmq:rpc-server')
+			->setName('kdybyrabbitmq:' . self::NAME)
+			->setAliases(['rabbitmq:' . self::NAME])
 			->setDescription("Starts a configured RPC server")
 			->addArgument('name', InputArgument::REQUIRED, 'Server Name')
 			->addOption('messages', 'm', InputOption::VALUE_OPTIONAL, 'Messages to consume', 0)
