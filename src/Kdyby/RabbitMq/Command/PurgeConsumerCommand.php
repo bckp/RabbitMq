@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Alvaro Videla <videlalvaro@gmail.com>
  * @author Filip Procházka <filip@prochazka.su>
  */
-class PurgeConsumerCommand extends Command
+class PurgeConsumerCommand extends BaseCommand
 {
 	public const NAME = 'purge';
 
@@ -25,16 +25,17 @@ class PurgeConsumerCommand extends Command
 	 */
 	public $connection;
 
-
-
 	protected function configure()
 	{
 		$this
-			->setName('kdybyrabbitmq:' . self::NAME)
-			->setAliases(['rabbitmq:' . self::NAME])
+			->setName(self::NAME)
 			->setDescription('Purges all messages in queue associated with given consumer')
 			->addArgument('name', InputArgument::REQUIRED, 'Consumer Name')
 			->addOption('no-confirmation', null, InputOption::VALUE_NONE, 'Whether it must be confirmed before purging');
+
+		if ($alias = $this->computeAlias(self::NAME)) {
+			$this->setAliases([$alias]);
+		}
 	}
 
 

@@ -3,7 +3,7 @@
 namespace Kdyby\RabbitMq\Command;
 
 use Kdyby\RabbitMq\BaseConsumer as Consumer;
-use Symfony\Component\Console\Command\Command;
+//use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,9 +15,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Alvaro Videla <videlalvaro@gmail.com>
  * @author Filip Procházka <filip@prochazka.su>
  */
-abstract class BaseConsumerCommand extends Command
+abstract class BaseConsumerCommand extends BaseCommand
 {
-
 	/**
 	 * @inject
 	 * @var \Kdyby\RabbitMq\Connection
