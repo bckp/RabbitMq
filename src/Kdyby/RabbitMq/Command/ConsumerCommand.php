@@ -15,9 +15,10 @@ class ConsumerCommand extends BaseConsumerCommand
 	protected function configure()
 	{
 		parent::configure();
-
-		$this->setName('kdybyrabbitmq:' . self::NAME);
-		$this->setAliases(['rabbitmq:' . self::NAME]);
+		$this->setName(self::NAME);
+		if ($alias = $this->computeAlias(self::NAME)) {
+			$this->setAliases([$alias]);
+		}
 		$this->setDescription('Starts a configured consumer');
 	}
 

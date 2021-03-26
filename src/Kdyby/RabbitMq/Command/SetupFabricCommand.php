@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Alvaro Videla <videlalvaro@gmail.com>
  * @author Filip Procházka <filip@prochazka.su>
  */
-class SetupFabricCommand extends Command
+class SetupFabricCommand extends BaseCommand
 {
 	public const NAME = 'setup-fabric';
 
@@ -28,10 +28,13 @@ class SetupFabricCommand extends Command
 	protected function configure()
 	{
 		$this
-			->setName('kdybyrabbitmq:' . self::NAME)
-			->setAliases(['rabbitmq:' . self::NAME])
+			->setName(self::NAME)
 			->setDescription('Sets up the Rabbit MQ fabric')
 			->addOption('debug', 'd', InputOption::VALUE_NONE, 'Enable Debugging');
+
+		if ($alias = $this->computeAlias(self::NAME)) {
+			$this->setAliases([$alias]);
+		}
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output)

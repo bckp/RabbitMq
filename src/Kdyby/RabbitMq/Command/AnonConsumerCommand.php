@@ -21,12 +21,15 @@ class AnonConsumerCommand extends BaseConsumerCommand
 	{
 		parent::configure();
 
-		$this->setName('kdybyrabbitmq:' . self::NAME);
-		$this->setAliases(['rabbitmq:' . self::NAME]);
+		$this->setName(self::NAME);
 		$this->setDescription('Starts an anonymouse configured consumer');
 
 		$this->getDefinition()->getOption('messages')->setDefault(1);
 		$this->getDefinition()->getOption('route')->setDefault('#');
+
+		if ($alias = $this->computeAlias(self::NAME)) {
+			$this->setAliases([$alias]);
+		}
 	}
 
 

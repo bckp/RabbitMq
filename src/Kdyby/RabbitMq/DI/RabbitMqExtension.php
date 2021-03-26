@@ -56,6 +56,8 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 		'rpcServers' => [],
 		'debugger' => '%debugMode%',
 		'autoSetupFabric' => '%debugMode%',
+		'consoleNamespace' => 'kdybyrabbitmq',
+		'consoleAlias' => null,
 	];
 
 	/**
@@ -232,7 +234,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 			]);
 		}
 
-		$this->loadConsole();
+		$this->loadConsole($config);
 	}
 
 	public function beforeCompile(): void
@@ -482,7 +484,7 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 	}
 
 
-	private function loadConsole()
+	private function loadConsole(array $config)
 	{
 		if (!class_exists('Kdyby\Console\DI\ConsoleExtension') || PHP_SAPI !== 'cli') {
 			return;
@@ -499,6 +501,10 @@ class RabbitMqExtension extends Nette\DI\CompilerExtension
 		         ] as $i => $class) {
 			$builder->addDefinition($this->prefix('console.' . $i))
 				->setType($class)
+				->setArguments([
+					'namespace' => $config['consoleNamespace'],
+					'alias' => $config['consoleAlias'],
+				])
 				->addTag(Kdyby\Console\DI\ConsoleExtension::TAG_COMMAND);
 		}
 	}
