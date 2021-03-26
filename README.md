@@ -8,6 +8,12 @@ Bckp/RabbitMq
 
 This is a fork of [Kdyby/RabbitMq](https://github.com/kdyby/RabbitMq), originally developed by [Filip Procházka](https://github.com/fprochazka).
 
+Informations
+------------
+
+This project is now done, it main purpose was to migrate to contributte/rabbitmq, so you can change commands etc...
+No new versions is expected
+
 Requirements
 ------------
 
