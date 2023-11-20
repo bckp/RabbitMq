@@ -47,6 +47,13 @@ rabbitmq:
 			  # false - do not declare (will fail if not created)
 			  # never - do not declare even if command is called, this one is mainly for no-permissions state
 
+		autoDlxQueue:
+			connection: default
+			autoCreate: true
+			dlx: [+5min, +15min]
+			# Will create automaticly 2 new dlx queues and exchanges to handle them
+			# if message is rejected in queue, it will go to first DLX, on second reject it will go to second DLX, on third will be throwed away
+
 	exchanges:
 		testExchange:
 			connection: default

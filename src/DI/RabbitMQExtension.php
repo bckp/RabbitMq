@@ -64,6 +64,7 @@ final class RabbitMQExtension extends CompilerExtension
 		$config = $this->getConfig();
 
 		$this->processConfig(new PhpGenerator($builder), $config);
+		$this->processExtensions($config);
 
 		$this->connectionsHelper->setup($builder, $config['connections']);
 		$this->queuesHelper->setup($builder, $config['queues']);
@@ -108,6 +109,63 @@ final class RabbitMQExtension extends CompilerExtension
 			}
 		} elseif ($item instanceof Statement) {
 			$item = new Literal($generator->formatStatement($item));
+		}
+	}
+
+	protected function processExtensions(array &$config): void
+	{
+		foreach ($config['queues'] ?? [] as $name => $data) {
+			# No dlx, we can continue
+			if (!isset($data['dlx']) || !$data['dlx']) {
+				continue;
+			}
+
+			$exchangeRetry = $name . '.dlx-retry';
+			$exchangeDlx = $name . '.dlx-wait';
+
+			# DLX Exchange: will pass msg to queue
+			$config['exchanges'][$exchangeRetry] = $this->exchangesHelper->processConfiguration([
+				'connection' => $data['connection'],
+				'type' => ExchangesHelper::ExchangeTypes[3],
+				'queueBindings' => [
+					[
+						'queue' => $name,
+					],
+				],
+			]);
+
+			# DLX Exchange: will pass msg to dlx queue
+			$exchangeDataBag = $this->exchangesHelper->processConfiguration([
+				'connection' => $data['connection'],
+				'type' => ExchangesHelper::ExchangeTypes[2], // headers
+				'queueBinding' => []
+			]);
+
+			# Expand dlx into new queues and exchange for them
+			foreach ($data['dlx'] as $pos => $seconds) {
+				$queueName = sprintf('%s.dlx-%s', $name, (string) $seconds);
+				$config['queues'][$queueName] = $this->queuesHelper->processConfiguration([
+					'connection' => $data['connection'],
+					'autoCreate' => true,
+					'arguments' => [
+						'x-dead-letter-exchange' => $exchangeRetry,
+						'x-message-ttl' => $seconds * 1000,
+					]
+				]);
+
+				$exchangeDataBag['queueBindings'][$queueName] = [
+					'arguments' => [
+						'x-match' => 'all',
+						'x-death' => [
+							'name' => $name,
+							'count' => $pos * 2,
+						],
+					],
+				];
+			}
+
+			$config[$exchangeDlx] = $exchangeDataBag;
+			unset($config['queues'][$name]['dlx']);
 		}
 	}
 }
