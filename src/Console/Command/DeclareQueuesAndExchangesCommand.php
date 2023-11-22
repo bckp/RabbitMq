@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Console\Command;
+namespace Bckp\RabbitMQ\Console\Command;
 
-use Mallgroup\RabbitMQ\AbstractDataBag;
-use Mallgroup\RabbitMQ\Exchange\ExchangeDeclarator;
-use Mallgroup\RabbitMQ\Exchange\ExchangesDataBag;
-use Mallgroup\RabbitMQ\Queue\QueueDeclarator;
-use Mallgroup\RabbitMQ\Queue\QueuesDataBag;
+use Bckp\RabbitMQ\AbstractDataBag;
+use Bckp\RabbitMQ\Exchange\ExchangeDeclarator;
+use Bckp\RabbitMQ\Exchange\ExchangesDataBag;
+use Bckp\RabbitMQ\Queue\QueueDeclarator;
+use Bckp\RabbitMQ\Queue\QueuesDataBag;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

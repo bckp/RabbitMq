@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\DI;
+namespace Bckp\RabbitMQ\DI;
 
-use Mallgroup\RabbitMQ\Client;
-use Mallgroup\RabbitMQ\Console\Command\ConsumerCommand;
-use Mallgroup\RabbitMQ\Console\Command\DeclareQueuesAndExchangesCommand;
-use Mallgroup\RabbitMQ\Console\Command\StaticConsumerCommand;
-use Mallgroup\RabbitMQ\DI\Helpers\ConnectionsHelper;
-use Mallgroup\RabbitMQ\DI\Helpers\ConsumersHelper;
-use Mallgroup\RabbitMQ\DI\Helpers\ExchangesHelper;
-use Mallgroup\RabbitMQ\DI\Helpers\ProducersHelper;
-use Mallgroup\RabbitMQ\DI\Helpers\QueuesHelper;
-use Mallgroup\RabbitMQ\LazyDeclarator;
+use Bckp\RabbitMQ\Client;
+use Bckp\RabbitMQ\Console\Command\ConsumerCommand;
+use Bckp\RabbitMQ\Console\Command\DeclareQueuesAndExchangesCommand;
+use Bckp\RabbitMQ\Console\Command\StaticConsumerCommand;
+use Bckp\RabbitMQ\DI\Helpers\ConnectionsHelper;
+use Bckp\RabbitMQ\DI\Helpers\ConsumersHelper;
+use Bckp\RabbitMQ\DI\Helpers\ExchangesHelper;
+use Bckp\RabbitMQ\DI\Helpers\ProducersHelper;
+use Bckp\RabbitMQ\DI\Helpers\QueuesHelper;
+use Bckp\RabbitMQ\LazyDeclarator;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\Statement;

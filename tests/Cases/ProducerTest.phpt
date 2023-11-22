@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Tests\Cases;
+namespace Bckp\RabbitMQ\Tests\Cases;
 
-use Mallgroup\RabbitMQ\Connection\ConnectionFactory;
-use Mallgroup\RabbitMQ\Connection\IConnection;
-use Mallgroup\RabbitMQ\Exchange\ExchangeDeclarator;
-use Mallgroup\RabbitMQ\Exchange\ExchangesDataBag;
-use Mallgroup\RabbitMQ\Exchange\IExchange;
-use Mallgroup\RabbitMQ\LazyDeclarator;
-use Mallgroup\RabbitMQ\Producer\Producer;
-use Mallgroup\RabbitMQ\Queue\IQueue;
-use Mallgroup\RabbitMQ\Queue\QueueDeclarator;
-use Mallgroup\RabbitMQ\Queue\QueuesDataBag;
-use Mallgroup\RabbitMQ\Tests\Mocks\ChannelMock;
-use Mallgroup\RabbitMQ\Tests\Mocks\Helper\RabbitMQMessageHelper;
+use Bckp\RabbitMQ\Connection\ConnectionFactory;
+use Bckp\RabbitMQ\Connection\IConnection;
+use Bckp\RabbitMQ\Exchange\ExchangeDeclarator;
+use Bckp\RabbitMQ\Exchange\ExchangesDataBag;
+use Bckp\RabbitMQ\Exchange\IExchange;
+use Bckp\RabbitMQ\LazyDeclarator;
+use Bckp\RabbitMQ\Producer\Producer;
+use Bckp\RabbitMQ\Queue\IQueue;
+use Bckp\RabbitMQ\Queue\QueueDeclarator;
+use Bckp\RabbitMQ\Queue\QueuesDataBag;
+use Bckp\RabbitMQ\Tests\Mocks\ChannelMock;
+use Bckp\RabbitMQ\Tests\Mocks\Helper\RabbitMQMessageHelper;
 use Tester\Assert;
 use Tester\TestCase;
 

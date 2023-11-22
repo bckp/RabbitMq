@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Producer;
+namespace Bckp\RabbitMQ\Producer;
 
 interface IProducer
 {

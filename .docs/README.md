@@ -18,7 +18,7 @@ config.neon:
 
 ```neon
 extensions:
-	rabbitmq: Mallgroup\RabbitMQ\DI\RabbitMQExtension
+	rabbitmq: Bckp\RabbitMQ\DI\RabbitMQExtension
 ```
 
 ### Example configuration
@@ -118,7 +118,7 @@ rabbitmq:
 # Enable tracy bar panel
 tracy:
 	bar:
-		- Mallgroup\RabbitMQ\Diagnostics\BarPanel
+		- Bckp\RabbitMQ\Diagnostics\BarPanel
 ```
 
 ### Declaring Queues and Exchanges
@@ -161,7 +161,7 @@ services.neon:
 
 ```neon
 services:
-	- TestQueue(@Mallgroup\RabbitMQ\Client::getProducer(testProducer))
+	- TestQueue(@Bckp\RabbitMQ\Client::getProducer(testProducer))
 ```
 
 TestQueue.php:
@@ -171,7 +171,7 @@ TestQueue.php:
 
 declare(strict_types=1);
 
-use Mallgroup\RabbitMQ\Producer\Producer;
+use Bckp\RabbitMQ\Producer\Producer;
 
 final class TestQueue
 {
@@ -203,7 +203,7 @@ final class TestQueue
 
 Bunny does not support well producers that run a long time but send the message only once in a long period. Producers often drop connection in the middle but bunny have no idea about it (stream is closed) and if you try to write some data, an exception will be thrown about broken connection.
 Drawback: you must call heartbeat by yourself.
-In the example below, you can see that Connection::sendHearbeat() is callen in every single cycle - that is not a problem as internally, `Mallgroup\rabbitmq` will actually let you send the heartbeat to rabbitmq only once per 1 second.
+In the example below, you can see that Connection::sendHearbeat() is callen in every single cycle - that is not a problem as internally, `Bckp\RabbitMQ` will actually let you send the heartbeat to rabbitmq only once per 1 second.
 
 LongRunningTestQueue.php:
 
@@ -212,7 +212,7 @@ LongRunningTestQueue.php:
 
 declare(strict_types=1);
 
-use Mallgroup\RabbitMQ\Producer\Producer;
+use Bckp\RabbitMQ\Producer\Producer;
 
 final class LongRunningTestQueue
 {
@@ -277,7 +277,7 @@ TestConsumer.php
 declare(strict_types=1);
 
 use Bunny\Message;
-use Mallgroup\RabbitMQ\Consumer\IConsumer;
+use Bckp\RabbitMQ\Consumer\IConsumer;
 
 final class TestConsumer implements IConsumer
 {
@@ -310,7 +310,7 @@ TestBulkConsumer.php
 declare(strict_types=1);
 
 use Bunny\Message;
-use Mallgroup\RabbitMQ\Consumer\IConsumer;
+use Bckp\RabbitMQ\Consumer\IConsumer;
 
 final class TestConsumer
 {

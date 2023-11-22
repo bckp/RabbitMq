@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Producer;
+namespace Bckp\RabbitMQ\Producer;
 
 use Bunny\Exception\ClientException;
 use Bunny\Protocol\MethodBasicNackFrame;
-use Mallgroup\RabbitMQ\Connection\Client;
-use Mallgroup\RabbitMQ\Connection\Exception\PublishException;
-use Mallgroup\RabbitMQ\Connection\Exception\WaitTimeoutException;
-use Mallgroup\RabbitMQ\Exchange\IExchange;
-use Mallgroup\RabbitMQ\LazyDeclarator;
-use Mallgroup\RabbitMQ\Queue\IQueue;
+use Bckp\RabbitMQ\Connection\Client;
+use Bckp\RabbitMQ\Connection\Exception\PublishException;
+use Bckp\RabbitMQ\Connection\Exception\WaitTimeoutException;
+use Bckp\RabbitMQ\Exchange\IExchange;
+use Bckp\RabbitMQ\LazyDeclarator;
+use Bckp\RabbitMQ\Queue\IQueue;
 use Exception;
 
 final class Producer implements IProducer

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\DI\Helpers;
+namespace Bckp\RabbitMQ\DI\Helpers;
 
-use Mallgroup\RabbitMQ\AbstractDataBag;
+use Bckp\RabbitMQ\AbstractDataBag;
 use Nette\DI\CompilerExtension;
 use Nette\Schema\Schema;
 

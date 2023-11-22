@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Exchange;
+namespace Bckp\RabbitMQ\Exchange;
 
-use Mallgroup\RabbitMQ\Queue\IQueue;
+use Bckp\RabbitMQ\Queue\IQueue;
 
 final class QueueBinding
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Consumer;
+namespace Bckp\RabbitMQ\Consumer;
 
 use Bunny\Message;
 

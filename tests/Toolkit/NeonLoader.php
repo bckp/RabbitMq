@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Tests\Toolkit;
+namespace Bckp\RabbitMQ\Tests\Toolkit;
 
 use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\Neon\Neon;

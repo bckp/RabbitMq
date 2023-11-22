@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\DI\Helpers;
+namespace Bckp\RabbitMQ\DI\Helpers;
 
-use Mallgroup\RabbitMQ\AbstractDataBag;
-use Mallgroup\RabbitMQ\Exchange\ExchangeDeclarator;
-use Mallgroup\RabbitMQ\Exchange\ExchangeFactory;
-use Mallgroup\RabbitMQ\Exchange\ExchangesDataBag;
+use Bckp\RabbitMQ\AbstractDataBag;
+use Bckp\RabbitMQ\Exchange\ExchangeDeclarator;
+use Bckp\RabbitMQ\Exchange\ExchangeFactory;
+use Bckp\RabbitMQ\Exchange\ExchangesDataBag;
 use Nette\DI\ContainerBuilder;
 use Nette\DI\Definitions\ServiceDefinition;
 use Nette\Schema\Expect;

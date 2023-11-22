@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Connection;
+namespace Bckp\RabbitMQ\Connection;
 
 use Bunny\Channel;
 use Bunny\Exception\BunnyException;
 use Bunny\Protocol\MethodFrame;
-use Mallgroup\RabbitMQ\Connection\Exception\ConnectionException;
+use Bckp\RabbitMQ\Connection\Exception\ConnectionException;
 
 interface IConnection
 {

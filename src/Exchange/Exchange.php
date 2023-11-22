@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Exchange;
+namespace Bckp\RabbitMQ\Exchange;
 
-use Mallgroup\RabbitMQ\Connection\IConnection;
+use Bckp\RabbitMQ\Connection\IConnection;
 
 final class Exchange implements IExchange
 {

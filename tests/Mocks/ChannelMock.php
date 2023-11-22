@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Tests\Mocks;
+namespace Bckp\RabbitMQ\Tests\Mocks;
 
 use Bunny\Channel;
 use Bunny\Message;
-use Mallgroup\RabbitMQ\Tests\Mocks\Helper\RabbitMQMessageHelper;
+use Bckp\RabbitMQ\Tests\Mocks\Helper\RabbitMQMessageHelper;
 use Nette\Neon\Neon;
 
 final class ChannelMock extends Channel

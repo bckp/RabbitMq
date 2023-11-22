@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Queue;
+namespace Bckp\RabbitMQ\Queue;
 
-use Mallgroup\RabbitMQ\Connection\IConnection;
+use Bckp\RabbitMQ\Connection\IConnection;
 
 interface IQueue
 {
