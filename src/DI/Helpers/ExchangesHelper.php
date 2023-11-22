@@ -27,7 +27,8 @@ final class ExchangesHelper extends AbstractHelper
 		);
 	}
 
-	public function getExchangeSchema(): Schema {
+	public function getExchangeSchema(): Schema
+	{
 		return Expect::structure([
 			'connection' => Expect::string('default'),
 			'type' => Expect::anyOf(...self::ExchangeTypes)->default(self::ExchangeTypes[0]),
@@ -73,6 +74,10 @@ final class ExchangesHelper extends AbstractHelper
 		])->castTo('array');
 	}
 
+	/**
+	 * @param array<string, mixed> $data
+	 * @return array<string, mixed>
+	 */
 	public function processConfiguration(array $data): array
 	{
 		return (new Processor)->process($this->getExchangeSchema(), $data);

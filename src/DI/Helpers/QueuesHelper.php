@@ -24,7 +24,8 @@ final class QueuesHelper extends AbstractHelper
 		);
 	}
 
-	public function getQueueSchema(): Schema {
+	public function getQueueSchema(): Schema
+	{
 		return Expect::structure([
 			'connection' => Expect::string('default'),
 			'passive' => Expect::bool(false),
@@ -45,8 +46,8 @@ final class QueuesHelper extends AbstractHelper
 	}
 
 	/**
-	 * @param array $data
-	 * @return array{connection: string, passive: bool, durable: bool, exclusive: bool, autoDelete: bool, noWait: bool, arguments: array, dlx: int[], autoCreate: int}
+	 * @param array<string, mixed> $data
+	 * @return array{connection: string, passive: bool, durable: bool, exclusive: bool, autoDelete: bool, noWait: bool, arguments: array<string, mixed>, dlx: int[], autoCreate: int}
 	 */
 	public function processConfiguration(array $data): array
 	{

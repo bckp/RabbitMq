@@ -112,6 +112,9 @@ final class RabbitMQExtension extends CompilerExtension
 		}
 	}
 
+	/**
+	 * @param array<string, mixed> $config
+	 */
 	protected function processExtensions(array &$config): void
 	{
 		foreach ($config['queues'] ?? [] as $name => $data) {

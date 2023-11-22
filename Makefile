@@ -9,10 +9,10 @@ install:
 qa: phpstan cs
 
 cs:
-	vendor/bin/phpcs --standard=vendor/gamee/php-code-checker-rules/ruleset.xml --extensions=php,phpt --tab-width=4 --ignore=temp -sp src
+	composer phpcs
 
 csf:
-	vendor/bin/phpcbf --standard=vendor/gamee/php-code-checker-rules/ruleset.xml --extensions=php,phpt --tab-width=4 --ignore=temp -sp src
+	composer fix-style
 
 phpstan:
 	vendor/bin/phpstan analyse src
