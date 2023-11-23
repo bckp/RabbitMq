@@ -131,18 +131,18 @@ final class RabbitMQExtension extends CompilerExtension
 				'connection' => $data['connection'],
 				'type' => ExchangesHelper::ExchangeTypes[3],
 				'queueBindings' => [
-					[
-						'queue' => $name,
+					$name => [
+						'routingKey' => [],
 					],
 				],
 			]);
 
 			# DLX Exchange: will pass msg to dlx queue
-			$exchangeDataBag = $this->exchangesHelper->processConfiguration([
+			$exchangeDataBag = [
 				'connection' => $data['connection'],
 				'type' => ExchangesHelper::ExchangeTypes[2], // headers
-				'queueBinding' => []
-			]);
+				'queueBindings' => []
+			];
 
 			# Expand dlx into new queues and exchange for them
 			foreach ($data['dlx'] as $pos => $seconds) {
@@ -167,7 +167,7 @@ final class RabbitMQExtension extends CompilerExtension
 				];
 			}
 
-			$config[$exchangeDlx] = $exchangeDataBag;
+			$config['exchanges'][$exchangeDlx] =  $this->exchangesHelper->processConfiguration($exchangeDataBag);
 			unset($config['queues'][$name]['dlx']);
 		}
 	}
