@@ -3,7 +3,7 @@
   "description": "Nette extension for RabbitMQ (using BunnyPHP)",
   "type": "library",
   "license": "MIT",
-  "homepage": "https://github.com/mallgroup/rcabbitmq",
+  "homepage": "https://github.com/bckp/rabbitmq",
   "keywords": [
     "rabbitmq",
     "rabbit",
@@ -14,7 +14,7 @@
     "php"
   ],
   "support": {
-    "issues": "https://github.com/mallgroup/rabbitmq/issues"
+    "issues": "https://github.com/bckp/rabbitmq/issues"
   },
   "authors": [
     {
