@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Tests\Cases;
+namespace Bckp\RabbitMQ\Tests\Cases;
 
 use Bunny\Client;
 use Bunny\Message;
-use Mallgroup\RabbitMQ\Connection\ConnectionFactory;
-use Mallgroup\RabbitMQ\Connection\IConnection;
-use Mallgroup\RabbitMQ\Consumer\BulkConsumer;
-use Mallgroup\RabbitMQ\Consumer\Exception\UnexpectedConsumerResultTypeException;
-use Mallgroup\RabbitMQ\Consumer\IConsumer;
-use Mallgroup\RabbitMQ\Exchange\ExchangeDeclarator;
-use Mallgroup\RabbitMQ\Exchange\ExchangesDataBag;
-use Mallgroup\RabbitMQ\LazyDeclarator;
-use Mallgroup\RabbitMQ\Queue\IQueue;
-use Mallgroup\RabbitMQ\Queue\QueueDeclarator;
-use Mallgroup\RabbitMQ\Queue\QueuesDataBag;
-use Mallgroup\RabbitMQ\Tests\Mocks\ChannelMock;
-use Mallgroup\RabbitMQ\Tests\Mocks\QueueMock;
+use Bckp\RabbitMQ\Connection\ConnectionFactory;
+use Bckp\RabbitMQ\Connection\IConnection;
+use Bckp\RabbitMQ\Consumer\BulkConsumer;
+use Bckp\RabbitMQ\Consumer\Exception\UnexpectedConsumerResultTypeException;
+use Bckp\RabbitMQ\Consumer\IConsumer;
+use Bckp\RabbitMQ\Exchange\ExchangeDeclarator;
+use Bckp\RabbitMQ\Exchange\ExchangesDataBag;
+use Bckp\RabbitMQ\LazyDeclarator;
+use Bckp\RabbitMQ\Queue\IQueue;
+use Bckp\RabbitMQ\Queue\QueueDeclarator;
+use Bckp\RabbitMQ\Queue\QueuesDataBag;
+use Bckp\RabbitMQ\Tests\Mocks\ChannelMock;
+use Bckp\RabbitMQ\Tests\Mocks\QueueMock;
 use Tester\Assert;
 use Tester\TestCase;
 

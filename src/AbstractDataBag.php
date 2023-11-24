@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ;
+namespace Bckp\RabbitMQ;
 
 abstract class AbstractDataBag
 {

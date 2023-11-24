@@ -1,5 +1,5 @@
 {
-  "name": "mallgroup/rabbitmq",
+  "name": "bckp/rabbitmq",
   "description": "Nette extension for RabbitMQ (using BunnyPHP)",
   "type": "library",
   "license": "MIT",
@@ -26,12 +26,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Mallgroup\\RabbitMQ\\": "src/"
+      "Bckp\\RabbitMQ\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Mallgroup\\RabbitMQ\\Tests\\": "tests"
+      "Bckp\\RabbitMQ\\Tests\\": "tests"
     }
   },
   "require": {

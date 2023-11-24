@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\DI\Helpers;
+namespace Bckp\RabbitMQ\DI\Helpers;
 
-use Mallgroup\RabbitMQ\Consumer\ConsumerFactory;
-use Mallgroup\RabbitMQ\Consumer\ConsumersDataBag;
+use Bckp\RabbitMQ\Consumer\ConsumerFactory;
+use Bckp\RabbitMQ\Consumer\ConsumersDataBag;
 use Nette\DI\ContainerBuilder;
 use Nette\DI\Definitions\ServiceDefinition;
 use Nette\Schema\Expect;

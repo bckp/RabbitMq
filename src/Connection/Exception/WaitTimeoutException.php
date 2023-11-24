@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Connection\Exception;
+namespace Bckp\RabbitMQ\Connection\Exception;
 
 use Bunny\Exception\ClientException;
 

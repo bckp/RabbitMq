@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Consumer\Exception;
+namespace Bckp\RabbitMQ\Consumer\Exception;
 
 class ConsumerFactoryException extends \InvalidArgumentException
 {

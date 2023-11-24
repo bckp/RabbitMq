@@ -2,10 +2,10 @@
 
 declare (strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Diagnostics;
+namespace Bckp\RabbitMQ\Diagnostics;
 
-use Mallgroup\RabbitMQ\Producer\IProducer;
-use Mallgroup\RabbitMQ\Producer\ProducerFactory;
+use Bckp\RabbitMQ\Producer\IProducer;
+use Bckp\RabbitMQ\Producer\ProducerFactory;
 use Nette\Utils\Html;
 use Tracy\IBarPanel;
 

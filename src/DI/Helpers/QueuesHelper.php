@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\DI\Helpers;
+namespace Bckp\RabbitMQ\DI\Helpers;
 
-use Mallgroup\RabbitMQ\AbstractDataBag;
-use Mallgroup\RabbitMQ\Queue\QueueDeclarator;
-use Mallgroup\RabbitMQ\Queue\QueueFactory;
-use Mallgroup\RabbitMQ\Queue\QueuesDataBag;
+use Bckp\RabbitMQ\AbstractDataBag;
+use Bckp\RabbitMQ\Queue\QueueDeclarator;
+use Bckp\RabbitMQ\Queue\QueueFactory;
+use Bckp\RabbitMQ\Queue\QueuesDataBag;
 use Nette\DI\ContainerBuilder;
 use Nette\DI\Definitions\ServiceDefinition;
 use Nette\Schema\Expect;
+use Nette\Schema\Processor;
 use Nette\Schema\Schema;
 
 final class QueuesHelper extends AbstractHelper
@@ -18,22 +19,39 @@ final class QueuesHelper extends AbstractHelper
 	public function getConfigSchema(): Schema
 	{
 		return Expect::arrayOf(
-			Expect::structure([
-				'connection' => Expect::string('default'),
-				'passive' => Expect::bool(false),
-				'durable' => Expect::bool(true),
-				'exclusive' => Expect::bool(false),
-				'autoDelete' => Expect::bool(false),
-				'noWait' => Expect::bool(false),
-				'arguments' => Expect::array(),
-				'autoCreate' => Expect::int(
-					AbstractDataBag::AutoCreateLazy
-				)->before(
-					fn(mixed $input): int => $this->normalizeAutoDeclare($input)
-				),
-			])->castTo('array'),
+			$this->getQueueSchema(),
 			'string'
 		);
+	}
+
+	public function getQueueSchema(): Schema
+	{
+		return Expect::structure([
+			'connection' => Expect::string('default'),
+			'passive' => Expect::bool(false),
+			'durable' => Expect::bool(true),
+			'exclusive' => Expect::bool(false),
+			'autoDelete' => Expect::bool(false),
+			'noWait' => Expect::bool(false),
+			'arguments' => Expect::array(),
+			'dlx' => Expect::int()->min(1)->required(false)->before(
+				static fn(string $time): int => (int) strtotime($time, 0)
+			),
+			'autoCreate' => Expect::int(
+				AbstractDataBag::AutoCreateLazy
+			)->before(
+				fn(mixed $input): int => $this->normalizeAutoDeclare($input)
+			),
+		])->castTo('array');
+	}
+
+	/**
+	 * @param array<string, mixed> $data
+	 * @return array{connection: string, passive: bool, durable: bool, exclusive: bool, autoDelete: bool, noWait: bool, arguments: array<string, mixed>, dlx: int[], autoCreate: int}
+	 */
+	public function processConfiguration(array $data): array
+	{
+		return (new Processor)->process($this->getQueueSchema(), $data);
 	}
 
 	/**

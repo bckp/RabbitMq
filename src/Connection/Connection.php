@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Connection;
+namespace Bckp\RabbitMQ\Connection;
 
 use Bunny\Channel;
 use Bunny\Exception\ClientException;
-use Mallgroup\RabbitMQ\Connection\Exception\ConnectionException;
+use Bckp\RabbitMQ\Connection\Exception\ConnectionException;
 use function in_array;
 use function max;
 use function time;

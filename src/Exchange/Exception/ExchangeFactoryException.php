@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Exchange\Exception;
+namespace Bckp\RabbitMQ\Exchange\Exception;
 
 class ExchangeFactoryException extends \InvalidArgumentException
 {

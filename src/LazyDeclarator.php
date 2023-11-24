@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ;
+namespace Bckp\RabbitMQ;
 
-use Mallgroup\RabbitMQ\Connection\ConnectionFactory;
-use Mallgroup\RabbitMQ\Connection\IConnection;
-use Mallgroup\RabbitMQ\Exchange\ExchangeDeclarator;
-use Mallgroup\RabbitMQ\Exchange\ExchangesDataBag;
-use Mallgroup\RabbitMQ\Queue\QueueDeclarator;
-use Mallgroup\RabbitMQ\Queue\QueuesDataBag;
+use Bckp\RabbitMQ\Connection\ConnectionFactory;
+use Bckp\RabbitMQ\Connection\IConnection;
+use Bckp\RabbitMQ\Exchange\ExchangeDeclarator;
+use Bckp\RabbitMQ\Exchange\ExchangesDataBag;
+use Bckp\RabbitMQ\Queue\QueueDeclarator;
+use Bckp\RabbitMQ\Queue\QueuesDataBag;
 use Exception;
 
 final class LazyDeclarator

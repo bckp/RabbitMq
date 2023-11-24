@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Queue;
+namespace Bckp\RabbitMQ\Queue;
 
-use Mallgroup\RabbitMQ\Connection\ConnectionFactory;
-use Mallgroup\RabbitMQ\Connection\Exception\ConnectionFactoryException;
-use Mallgroup\RabbitMQ\Queue\Exception\QueueFactoryException;
+use Bckp\RabbitMQ\Connection\ConnectionFactory;
+use Bckp\RabbitMQ\Connection\Exception\ConnectionFactoryException;
+use Bckp\RabbitMQ\Queue\Exception\QueueFactoryException;
 
 final class QueueFactory
 {

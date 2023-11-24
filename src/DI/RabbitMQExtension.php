@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\DI;
+namespace Bckp\RabbitMQ\DI;
 
-use Mallgroup\RabbitMQ\Client;
-use Mallgroup\RabbitMQ\Console\Command\ConsumerCommand;
-use Mallgroup\RabbitMQ\Console\Command\DeclareQueuesAndExchangesCommand;
-use Mallgroup\RabbitMQ\Console\Command\StaticConsumerCommand;
-use Mallgroup\RabbitMQ\DI\Helpers\ConnectionsHelper;
-use Mallgroup\RabbitMQ\DI\Helpers\ConsumersHelper;
-use Mallgroup\RabbitMQ\DI\Helpers\ExchangesHelper;
-use Mallgroup\RabbitMQ\DI\Helpers\ProducersHelper;
-use Mallgroup\RabbitMQ\DI\Helpers\QueuesHelper;
-use Mallgroup\RabbitMQ\LazyDeclarator;
+use Bckp\RabbitMQ\Client;
+use Bckp\RabbitMQ\Console\Command\ConsumerCommand;
+use Bckp\RabbitMQ\Console\Command\DeclareQueuesAndExchangesCommand;
+use Bckp\RabbitMQ\Console\Command\StaticConsumerCommand;
+use Bckp\RabbitMQ\DI\Helpers\ConnectionsHelper;
+use Bckp\RabbitMQ\DI\Helpers\ConsumersHelper;
+use Bckp\RabbitMQ\DI\Helpers\ExchangesHelper;
+use Bckp\RabbitMQ\DI\Helpers\ProducersHelper;
+use Bckp\RabbitMQ\DI\Helpers\QueuesHelper;
+use Bckp\RabbitMQ\LazyDeclarator;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\Statement;
@@ -64,6 +64,7 @@ final class RabbitMQExtension extends CompilerExtension
 		$config = $this->getConfig();
 
 		$this->processConfig(new PhpGenerator($builder), $config);
+		$this->processExtensions($config);
 
 		$this->connectionsHelper->setup($builder, $config['connections']);
 		$this->queuesHelper->setup($builder, $config['queues']);
@@ -108,6 +109,57 @@ final class RabbitMQExtension extends CompilerExtension
 			}
 		} elseif ($item instanceof Statement) {
 			$item = new Literal($generator->formatStatement($item));
+		}
+	}
+
+	/**
+	 * @param array<string, mixed> $config
+	 */
+	protected function processExtensions(array &$config): void
+	{
+		foreach ($config['queues'] ?? [] as $name => $data) {
+			# No dlx, we can continue
+			if (!isset($data['dlx']) || !$data['dlx']) {
+				continue;
+			}
+
+			$exchangeOut = $name . '.dlx-out';
+			$exchangeIn = $name . '.dlx-in';
+
+			$queueDlx = sprintf('%s.dlx-%s', $name, (string) $data['dlx']);
+
+			# Setup dead letter exchange
+			$config['queues'][$name]['arguments']['x-dead-letter-exchange'] = $exchangeIn;
+
+			# DLX Exchange: will pass msg to queue
+			$config['exchanges'][$exchangeOut] = $this->exchangesHelper->processConfiguration([
+				'connection' => $data['connection'],
+				'type' => ExchangesHelper::ExchangeTypes[3],
+				'queueBindings' => [
+					$name => [],
+				],
+			]);
+
+			# DLX Exchange: will pass msg to dlx queue
+			$config['exchanges'][$exchangeIn] = $this->exchangesHelper->processConfiguration([
+				'connection' => $data['connection'],
+				'type' => ExchangesHelper::ExchangeTypes[3],
+				'queueBindings' => [
+					$queueDlx => []
+				]
+			]);
+
+			# Expand dlx into new queues and exchange for them
+			$config['queues'][$queueDlx] = $this->queuesHelper->processConfiguration([
+				'connection' => $data['connection'],
+				'autoCreate' => true,
+				'arguments' => [
+					'x-dead-letter-exchange' => $exchangeOut,
+					'x-message-ttl' => $data['dlx'] * 1000,
+				]
+			]);
+
+			unset($config['queues'][$name]['dlx']);
 		}
 	}
 }

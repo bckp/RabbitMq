@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Mallgroup\RabbitMQ\Consumer;
+namespace Bckp\RabbitMQ\Consumer;
 
 use Bunny\Channel;
 use Bunny\Client;
 use Bunny\Exception\ClientException;
 use Bunny\Message;
-use Mallgroup\RabbitMQ\LazyDeclarator;
-use Mallgroup\RabbitMQ\Queue\IQueue;
+use Bckp\RabbitMQ\LazyDeclarator;
+use Bckp\RabbitMQ\Queue\IQueue;
 
 class Consumer
 {
@@ -83,6 +83,7 @@ class Consumer
 		match ($result) {
 			IConsumer::MESSAGE_ACK, IConsumer::MESSAGE_ACK_AND_TERMINATE => $channel->ack($message),
 			IConsumer::MESSAGE_NACK, IConsumer::MESSAGE_NACK_AND_TERMINATE => $channel->nack($message),
+			IConsumer::MESSAGE_NACK_REJECT, IConsumer::MESSAGE_NACK_REJECT_AND_TERMINATE => $channel->nack($message, requeue: false),
 			IConsumer::MESSAGE_REJECT, IConsumer::MESSAGE_REJECT_AND_TERMINATE => $channel->reject($message, false),
 			default => throw new \InvalidArgumentException("Unknown return value of consumer [{$this->name}] user callback"),
 		};
@@ -92,7 +93,8 @@ class Consumer
 			[
 				IConsumer::MESSAGE_REJECT_AND_TERMINATE,
 				IConsumer::MESSAGE_ACK_AND_TERMINATE,
-				IConsumer::MESSAGE_NACK_AND_TERMINATE
+				IConsumer::MESSAGE_NACK_AND_TERMINATE,
+				IConsumer::MESSAGE_NACK_REJECT_AND_TERMINATE,
 			],
 			true
 		)

@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+    app:
+        image: "trafex/php-nginx"
+        container_name: nette-rabbit
+        ports:
+            - "8088:80"
+        volumes:
+            - ../src.:/var/www/html
+        links:
+            - rabbitmq
+        depends_on:
+            - rabbitmq
+        stdin_open: true
+        tty: true
+
+    rabbitmq:
+        image: "rabbitmq:3.11.19-management"
+        container_name: rabbit
+        environment:
+            RABBITMQ_ERLANG_COOKIE: "uTVS3R2GmZJWN3rQ7zWM"
+            RABBITMQ_DEFAULT_USER: "guest"
+            RABBITMQ_DEFAULT_PASS: "guest"
+            RABBITMQ_DEFAULT_VHOST: "/"
+        ports:
+            - "15672:15672"
+        volumes:
+            - ./docker/etc/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+        dns:
+            - 10.1.17.211
+            - 172.26.1.227
+        labels:
+            NAME: "rabbitmq"
