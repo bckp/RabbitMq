@@ -1,4 +1,4 @@
-# Mallgroup / RabbitMQ
+Bckp / RabbitMQ
 
 ## Content
 
@@ -50,8 +50,8 @@ rabbitmq:
 		autoDlxQueue:
 			connection: default
 			autoCreate: true
-			dlx: [+5min, +15min]
-			# Will create automaticly 2 new dlx queues and exchanges to handle them
+			dlx: +5min
+			# Will create automaticly new dlx queues and exchanges to handle them
 			# if message is rejected in queue, it will go to first DLX, on second reject it will go to second DLX, on third will be throwed away
 
 	exchanges:
