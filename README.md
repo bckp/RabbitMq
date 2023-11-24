@@ -2,12 +2,13 @@
  RabbitMQ (AMQP, STOMP, MQTT) integration for Nette Framework using BunnyPHP
 
 <p>
-  <a href="https://github.com/bckp/rabbitmq/actions"><img src="https://badgen.net/github/checks/bckp/rabbitmq/master"></a>
-  <a href="https://coveralls.io/r/bckp/rabbitmq"><img src="https://badgen.net/coveralls/c/github/bckp/rabbitmq"></a>
-  <a href="https://packagist.org/packages/bckp/rabbitmq"><img src="https://badgen.net/packagist/dm/bckp/rabbitmq"></a>
-  <a href="https://packagist.org/packages/bckp/rabbitmq"><img src="https://badgen.net/packagist/v/bckp/rabbitmq"></a>
-  <a href="https://packagist.org/packages/bckp/rabbitmq"><img src="https://badgen.net/packagist/php/bckp/rabbitmq"></a>
-  <a href="https://github.com/bckp/rabbitmq"><img src="https://badgen.net/github/license/bckp/rabbitmq"></a>
+  <a href="https://github.com/bckp/rabbitmq/actions"><img src="https://img.shields.io/github/actions/workflow/status/bckp/rabbitmq/main.yaml?style=flat-square"></a>
+  <a href="https://coveralls.io/r/bckp/rabbitmq"><img src="https://img.shields.io/coverallsCoverage/github/bckp/rabbitmq?style=flat-square"></a>
+  <a href="https://packagist.org/packages/bckp/rabbitmq"><img src="https://img.shields.io/packagist/dm/bckp/rabbitmq?style=flat-square"></a>
+  <a href="https://github.com/bckp/rabbitmq"><img src="https://img.shields.io/github/license/bckp/rabbitmq?style=flat-square"></a>
+  <a href="https://packagist.org/packages/bckp/rabbitmq"><img src="https://img.shields.io/packagist/dependency-v/bckp/rabbitmq/php?style=flat-square"></a>
+  <a href="https://github.com/bckp/rabbitmq/issues"><img src="https://img.shields.io/github/issues/bckp/rabbitmq?style=flat-square" alt="Issues"/></a>
+  <a href="https://packagist.org/packages/bckp/rabbitmq"><img src="https://img.shields.io/packagist/v/bckp/rabbitmq?style=flat-square"></a>
 </p>
 
 ## Usage
