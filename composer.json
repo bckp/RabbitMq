@@ -65,7 +65,7 @@
     "ext-curl": "Allows to use federation plugin"
   },
   "replace": {
-    "mallgroup/rabbitmq":"<=11.*",
+    "mallgroup/rabbitmq":"<=11",
     "contributte/rabbitmq":"<10"
   },
   "minimum-stability": "dev",
