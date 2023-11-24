@@ -123,51 +123,42 @@ final class RabbitMQExtension extends CompilerExtension
 				continue;
 			}
 
-			$exchangeRetry = $name . '.dlx-retry';
-			$exchangeDlx = $name . '.dlx-wait';
+			$exchangeOut = $name . '.dlx-out';
+			$exchangeIn = $name . '.dlx-in';
+
+			$queueDlx = sprintf('%s.dlx-%s', $name, (string) $data['dlx']);
+
+			# Setup dead letter exchange
+			$config['queues'][$name]['arguments']['x-dead-letter-exchange'] = $exchangeIn;
 
 			# DLX Exchange: will pass msg to queue
-			$config['exchanges'][$exchangeRetry] = $this->exchangesHelper->processConfiguration([
+			$config['exchanges'][$exchangeOut] = $this->exchangesHelper->processConfiguration([
 				'connection' => $data['connection'],
 				'type' => ExchangesHelper::ExchangeTypes[3],
 				'queueBindings' => [
-					$name => [
-						'routingKey' => [],
-					],
+					$name => [],
 				],
 			]);
 
 			# DLX Exchange: will pass msg to dlx queue
-			$exchangeDataBag = [
+			$config['exchanges'][$exchangeIn] = $this->exchangesHelper->processConfiguration([
 				'connection' => $data['connection'],
-				'type' => ExchangesHelper::ExchangeTypes[2], // headers
-				'queueBindings' => []
-			];
+				'type' => ExchangesHelper::ExchangeTypes[3],
+				'queueBindings' => [
+					$queueDlx => []
+				]
+			]);
 
 			# Expand dlx into new queues and exchange for them
-			foreach ($data['dlx'] as $pos => $seconds) {
-				$queueName = sprintf('%s.dlx-%s', $name, (string) $seconds);
-				$config['queues'][$queueName] = $this->queuesHelper->processConfiguration([
-					'connection' => $data['connection'],
-					'autoCreate' => true,
-					'arguments' => [
-						'x-dead-letter-exchange' => $exchangeRetry,
-						'x-message-ttl' => $seconds * 1000,
-					]
-				]);
+			$config['queues'][$queueDlx] = $this->queuesHelper->processConfiguration([
+				'connection' => $data['connection'],
+				'autoCreate' => true,
+				'arguments' => [
+					'x-dead-letter-exchange' => $exchangeOut,
+					'x-message-ttl' => $data['dlx'] * 1000,
+				]
+			]);
 
-				$exchangeDataBag['queueBindings'][$queueName] = [
-					'arguments' => [
-						'x-match' => 'all',
-						'x-death' => [
-							'name' => $name,
-							'count' => $pos * 2,
-						],
-					],
-				];
-			}
-
-			$config['exchanges'][$exchangeDlx] =  $this->exchangesHelper->processConfiguration($exchangeDataBag);
 			unset($config['queues'][$name]['dlx']);
 		}
 	}
