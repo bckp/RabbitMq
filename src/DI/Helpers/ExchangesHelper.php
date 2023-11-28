@@ -41,10 +41,10 @@ final class ExchangesHelper extends AbstractHelper
 			'queueBindings' => Expect::arrayOf(
 				Expect::structure([
 					'routingKey' => Expect::anyOf(
-						Expect::string(),
+						Expect::type('string|int')->castTo('string'),
 						Expect::arrayOf(
-							Expect::string()
-						)
+							Expect::type('string|int')->castTo('string'),
+						),
 					)->default([''])->castTo('array'),
 					'noWait' => Expect::bool(false),
 					'arguments' => Expect::array(),
