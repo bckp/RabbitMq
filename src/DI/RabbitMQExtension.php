@@ -123,40 +123,47 @@ final class RabbitMQExtension extends CompilerExtension
 				continue;
 			}
 
-			$exchangeOut = $name . '.dlx-out';
-			$exchangeIn = $name . '.dlx-in';
-
-			$queueDlx = sprintf('%s.dlx-%s', $name, (string) $data['dlx']);
+			$exchangeOut = "{$name}.dlx-out";
+			$exchangeIn = "{$name}.dlx-in";
 
 			# Setup dead letter exchange
 			$config['queues'][$name]['arguments']['x-dead-letter-exchange'] = $exchangeIn;
 
-			# DLX Exchange: will pass msg to queue
-			$config['exchanges'][$exchangeOut] = $this->exchangesHelper->processConfiguration([
-				'connection' => $data['connection'],
-				'type' => ExchangesHelper::ExchangeTypes[3],
-				'queueBindings' => [
-					$name => [],
-				],
-			]);
+			# Prepare variables
+			$dlxSuffix = \is_numeric($data['dlx']) ? '-' . $data['dlx'] : '';
+			$queueDlxName = "{$name}.dlx";
+			$queueDlxArguments = [];
+
+			if (!is_bool($data['dlx'])) {
+				$queueDlxName .= $dlxSuffix;
+				$queueDlxArguments = [
+					'x-dead-letter-exchange' => $exchangeOut,
+					'x-message-ttl' => $data['dlx'] * 1000,
+				];
+
+				$config['exchanges'][$exchangeOut] = $this->exchangesHelper->processConfiguration([
+					'connection' => $data['connection'],
+					'type' => ExchangesHelper::ExchangeTypes[3],
+					'queueBindings' => [
+						$name => [],
+					],
+				]);
+			}
 
 			# DLX Exchange: will pass msg to dlx queue
 			$config['exchanges'][$exchangeIn] = $this->exchangesHelper->processConfiguration([
 				'connection' => $data['connection'],
 				'type' => ExchangesHelper::ExchangeTypes[3],
 				'queueBindings' => [
-					$queueDlx => []
+					$queueDlxName => []
 				]
 			]);
 
 			# Expand dlx into new queues and exchange for them
-			$config['queues'][$queueDlx] = $this->queuesHelper->processConfiguration([
+			$config['queues'][$queueDlxName] = $this->queuesHelper->processConfiguration([
 				'connection' => $data['connection'],
 				'autoCreate' => true,
-				'arguments' => [
-					'x-dead-letter-exchange' => $exchangeOut,
-					'x-message-ttl' => $data['dlx'] * 1000,
-				]
+				'arguments' => $queueDlxArguments,
 			]);
 
 			unset($config['queues'][$name]['dlx']);

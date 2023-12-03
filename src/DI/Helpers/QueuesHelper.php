@@ -34,8 +34,8 @@ final class QueuesHelper extends AbstractHelper
 			'autoDelete' => Expect::bool(false),
 			'noWait' => Expect::bool(false),
 			'arguments' => Expect::array(),
-			'dlx' => Expect::int()->min(1)->required(false)->before(
-				static fn(string $time): int => (int) strtotime($time, 0)
+			'dlx' => Expect::type('int|bool')->required(false)->before(
+				fn (mixed $item) => $this->normalizeDlxEntry($item)
 			),
 			'autoCreate' => Expect::int(
 				AbstractDataBag::AutoCreateLazy
@@ -72,5 +72,13 @@ final class QueuesHelper extends AbstractHelper
 			->addDefinition($this->extension->prefix('queueFactory'))
 			->setFactory(QueueFactory::class)
 			->setArguments([$queuesDataBag]);
+	}
+
+	protected function normalizeDlxEntry(string|bool $value): int|bool
+	{
+		if (is_string($value)) {
+			return (int) strtotime($value, 0);
+		}
+		return $value;
 	}
 }
