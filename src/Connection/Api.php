@@ -71,10 +71,10 @@ class Api implements IApi
 			'exchange' => $name,
 		];
 
-		if ($messageTTL) {
+		if ($messageTTL !== null && $messageTTL > 0) {
 			$federationParamsPrototype['message-ttl'] = $messageTTL;
 		}
-		if ($expires) {
+		if ($expires !== null && $expires > 0) {
 			$federationParamsPrototype['expires'] = $expires;
 		}
 
@@ -167,7 +167,7 @@ class Api implements IApi
 
 		return [
 			'status' => $info['http_code'],
-			'data' => $response ? json_decode((string) $response, flags: JSON_THROW_ON_ERROR) : '',
+			'data' => $response !== false ? json_decode((string) $response, flags: JSON_THROW_ON_ERROR) : '',
 		];
 	}
 
