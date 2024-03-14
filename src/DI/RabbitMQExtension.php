@@ -135,7 +135,7 @@ final class RabbitMQExtension extends CompilerExtension
 			$queueDlxArguments = [];
 
 			# If we have set queue type, dlx should copy it
-			if ($config['queues'][$name]['arguments']['x-queue-type'] ?? false) {
+			if (is_string($config['queues'][$name]['arguments']['x-queue-type'] ?? false)) {
 				$queueDlxArguments['x-queue-type'] = $config['queues'][$name]['arguments']['x-queue-type'];
 			}
 
