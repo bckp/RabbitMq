@@ -57,11 +57,11 @@ final class ConsumerFactory
 		$prefetchSize = null;
 		$prefetchCount = null;
 
-		if ($consumerData['qos']['prefetchSize'] !== null) {
+		if (($consumerData['qos']['prefetchSize'] ?? null) !== null) {
 			$prefetchSize = $consumerData['qos']['prefetchSize'];
 		}
 
-		if ($consumerData['qos']['prefetchCount'] !== null) {
+		if (($consumerData['qos']['prefetchCount'] ?? null) !== null) {
 			$prefetchCount = $consumerData['qos']['prefetchCount'];
 		}
 
